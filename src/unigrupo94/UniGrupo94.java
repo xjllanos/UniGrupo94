@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import unigrupo94.AccesoADatos.AlumnoData;
 import unigrupo94.AccesoADatos.Conexion;
+import unigrupo94.AccesoADatos.MateriaData;
 import unigrupo94.Entidades.Alumno;
+import unigrupo94.Entidades.Materia;
 
 
 public class UniGrupo94 {
@@ -22,7 +24,7 @@ public class UniGrupo94 {
         /*Alumno alumnoEncontrado = alu.buscarAlumnoPorDni(33214568);
         System.out.println("dni: " + alumnoEncontrado.getDni());
                 System.out.println( "apellido: " + alumnoEncontrado.getApellido());*/
-        AlumnoData alu = new AlumnoData();
+        /*AlumnoData alu = new AlumnoData();
         for (Alumno alumno:alu.listarAlumnos()){
             
             System.out.println(alumno.getDni());
@@ -30,7 +32,12 @@ public class UniGrupo94 {
             System.out.println(alumno.getNombre());
             System.out.println(alumno.getFechaNac());
             
-        }
+        }*/
+        
+        Materia mate = new Materia(4, "Eco II", 2, true);
+        MateriaData md = new MateriaData();
+        //md.guardarMateria(mate);
+        md.modificarMateria(mate);
         
     }
     
