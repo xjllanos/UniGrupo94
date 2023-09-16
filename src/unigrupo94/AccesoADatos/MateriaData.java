@@ -49,15 +49,11 @@ public class MateriaData {
     
     public void modificarMateria(Materia materia){
         
-        /*String sql="UPDATE materia SET nombre= ?, anio = ?"
-                + "WHERE idMateria = ? ";
-        String sql="UPDATE materia SET nombre= ?, anio = ?, estado = ?"
-                + "WHERE idMateria = ? ";*/
-        String sql="UPDATE materia SET nombre=?,anio=?,estado=? WHERE idMateria";
+        String sql="UPDATE materia SET nombre=?,anio=?,estado=?"
+                + " WHERE idMateria = ? ";
         
         try {
             PreparedStatement ps=con.prepareStatement(sql);
-            //ps.setInt(1, materia.getIdMateria());
             ps.setString(1, materia.getNombre());
             ps.setInt(2, materia.getAnio());
             ps.setBoolean(3, materia.isActivo());
@@ -65,12 +61,13 @@ public class MateriaData {
             
             int exito = ps.executeUpdate();
             if(exito==1){ 
-                JOptionPane.showMessageDialog(null, "materia modificada");    
+                JOptionPane.showMessageDialog(null, " Materia modificada "); 
+                
             }
             
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "error al acceder a la tabla materia");
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla materia");
         }
         
         

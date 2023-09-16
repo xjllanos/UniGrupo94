@@ -34,7 +34,7 @@ public class UniGrupo94 {
             
         }*/
         
-        Materia mate = new Materia(4, "Eco II", 2, true);
+        Materia mate = new Materia(1, " Literatura ", 2 , true);
         MateriaData md = new MateriaData();
         //md.guardarMateria(mate);
         md.modificarMateria(mate);
