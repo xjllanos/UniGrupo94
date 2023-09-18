@@ -73,5 +73,24 @@ public class MateriaData {
         
     }
     
+    public void eliminarMateria(int id){
+        
+        String sql="UPDATE materia SET estado = 0 WHERE idMateria = ? ";
+        
+        try {
+            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int exito = ps.executeUpdate();
+            if(exito==1){
+                
+            JOptionPane.showMessageDialog(null, " Materia eliminada ");    
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla materia");
+        }
+        
+    }
+    
     
 }
