@@ -38,7 +38,15 @@ public class UniGrupo94 {
         MateriaData md = new MateriaData();
         //md.guardarMateria(mate);
         //md.modificarMateria(mate);
-        md.eliminarMateria(2);
+        //md.eliminarMateria(2);
+        //Materia materiaEncontrada = md.buscarMateria(3);
+        //System.out.println("nombre: " + materiaEncontrada.getNombre()); 
+        
+        for (Materia materia:md.listarMaterias()){
+            System.out.println(materia.getNombre());
+            System.out.println(materia.getAnio());
+        }
+       
         
     }
     
