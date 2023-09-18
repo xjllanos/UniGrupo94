@@ -106,6 +106,7 @@ public class MateriaData {
             if(rs.next()){
               
                 materia=new Materia ();
+                materia.setIdMateria(id);
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnio(2);
                 materia.setActivo(true);
