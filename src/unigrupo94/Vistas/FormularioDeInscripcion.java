@@ -5,17 +5,27 @@
  */
 package unigrupo94.Vistas;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author JATil
  */
 public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
 
+    private DefaultTableModel modelo = new DefaultTableModel (){
+
+    public boolean isCellEditable (int f, int c){
+        
+        return false ; 
+    }
+};
     /**
      * Creates new form FormularioDeInscripcion
      */
     public FormularioDeInscripcion() {
         initComponents();
+        armarCabecera (); 
     }
 
     /**
@@ -40,7 +50,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTInscripcion = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -87,7 +97,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setText("MATERIAS NO INSCRIPTAS");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTInscripcion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -98,7 +108,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(jTInscripcion);
 
         jButton1.setText("INSCRIBIR");
 
@@ -186,8 +196,19 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTInscripcion;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
+    private void armarCabecera (){
+    
+        modelo.addColumn("ID");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("AÑO");
+        jTInscripcion.setModel(modelo);
+        
+    }
+
+
+
 }

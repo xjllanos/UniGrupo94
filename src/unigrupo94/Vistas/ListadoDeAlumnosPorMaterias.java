@@ -5,17 +5,25 @@
  */
 package unigrupo94.Vistas;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author JATil
  */
 public class ListadoDeAlumnosPorMaterias extends javax.swing.JInternalFrame {
+private DefaultTableModel modelo = new DefaultTableModel (){
 
+    public boolean isCellEditable (int f, int c){
+        return false ; 
+    }
+};
     /**
      * Creates new form ListadoDeAlumnosPorMaterias
      */
     public ListadoDeAlumnosPorMaterias() {
         initComponents();
+        armarCabecera ();
     }
 
     /**
@@ -31,7 +39,7 @@ public class ListadoDeAlumnosPorMaterias extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTAluporMate = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 22)); // NOI18N
         jLabel1.setText("LISTADO DE ALUMNOS POR MATERIA");
@@ -41,7 +49,7 @@ public class ListadoDeAlumnosPorMaterias extends javax.swing.JInternalFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTAluporMate.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -52,7 +60,7 @@ public class ListadoDeAlumnosPorMaterias extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTAluporMate);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,6 +105,18 @@ public class ListadoDeAlumnosPorMaterias extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTAluporMate;
     // End of variables declaration//GEN-END:variables
+
+    private void armarCabecera (){
+        modelo.addColumn("ID");
+        modelo.addColumn("APELLIDO");
+        modelo.addColumn("NOMBRE");
+        modelo.addColumn("DNI");
+        jTAluporMate.setModel(modelo);
+    
+    }
+
+
+
 }
