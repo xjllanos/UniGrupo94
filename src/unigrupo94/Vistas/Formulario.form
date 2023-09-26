@@ -17,6 +17,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Alumno"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtAlumnoActionPerformed"/>
+          </Events>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMGesAlu">
               <Properties>
@@ -93,9 +96,6 @@
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="99" green="99" red="99" type="rgb"/>
-    </Property>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[700, 600]"/>
     </Property>
   </Properties>
   <SyntheticProperties>

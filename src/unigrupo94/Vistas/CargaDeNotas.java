@@ -5,26 +5,29 @@
  */
 package unigrupo94.Vistas;
 
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import unigrupo94.AccesoADatos.AlumnoData;
+import unigrupo94.AccesoADatos.InscripcionData;
+import unigrupo94.Entidades.Alumno;
+import unigrupo94.Entidades.Inscripcion;
 
 /**
  *
  * @author JATil
  */
 public class CargaDeNotas extends javax.swing.JInternalFrame {
-private DefaultTableModel modelo = new DefaultTableModel (){
-
-    public boolean isCellEditable (int f,int c){
     
-        return false; 
-    }
-};
+private DefaultTableModel modelo = new DefaultTableModel ();
     /**
      * Creates new form CargaDeNotas
      */
     public CargaDeNotas() {
         initComponents();
-        armarCabecera (); 
+        armarCabecera ();
+        cargarCombo();
     }
 
     /**
@@ -38,10 +41,10 @@ private DefaultTableModel modelo = new DefaultTableModel (){
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbAlumnos = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTNotas = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jtNotas = new javax.swing.JTable();
+        jbGuardar = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 22)); // NOI18N
         jLabel1.setText("CARGA DE NOTAS");
@@ -49,22 +52,29 @@ private DefaultTableModel modelo = new DefaultTableModel (){
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("SELECCIONE ALUMNO:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbAlumnosActionPerformed(evt);
+            }
+        });
 
-        jTNotas.setModel(new javax.swing.table.DefaultTableModel(
+        jtNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTNotas);
+        jtNotas.setColumnSelectionAllowed(false);
+        jScrollPane1.setViewportView(jtNotas);
 
-        jButton1.setText("Guardar");
+        jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,19 +83,19 @@ private DefaultTableModel modelo = new DefaultTableModel (){
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(164, 164, 164)
-                        .addComponent(jButton1)))
+                        .addComponent(jbGuardar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -96,25 +106,90 @@ private DefaultTableModel modelo = new DefaultTableModel (){
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jButton1)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jbGuardar)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    //jcombobox
+    private void jcbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbAlumnosActionPerformed
+        // Obtengo el alumno seleccionado del JComboBox
+    Alumno alumnoSeleccionado = (Alumno) jcbAlumnos.getSelectedItem();
 
+    // Verifico si se seleccionó un alumno válido
+    if (alumnoSeleccionado != null) {
+        // Limpio la tabla si ya contiene datos
+        DefaultTableModel modeloTabla = (DefaultTableModel) jtNotas.getModel();
+        modeloTabla.setRowCount(0);
+
+        // aca obtengo las inscripciones del alumno desde la base de datos utilizando InscripcionData
+        InscripcionData inscripcionData = new InscripcionData();
+        // Pasa el idAlumno en lugar del objeto Alumno
+        List<Inscripcion> inscripciones = inscripcionData.obtenerInscripcionesPorAlumno(alumnoSeleccionado.getIdAlumno());
+
+        // Itero sobre las inscripciones y agrega cada una como una fila en la tabla
+        for (Inscripcion inscripcion : inscripciones) {
+            Object[] rowData = {
+                inscripcion.getIdInscripcion(),
+                inscripcion.getMateria().getNombre(),
+                inscripcion.getNota()
+            };
+            modeloTabla.addRow(rowData);
+        }
+        
+        
+    }
+    }//GEN-LAST:event_jcbAlumnosActionPerformed
+    //boton guardar
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        // Obtengo la fila y columna seleccionada
+    int filaSeleccionada = jtNotas.getSelectedRow();
+    int columnaSeleccionada = jtNotas.getSelectedColumn();
+
+    // Verifico si se seleccionó una fila válida
+    if (filaSeleccionada != -1) {
+        // Obtengo el nuevo valor de la celda editada
+        Object nuevoValor = jtNotas.getValueAt(filaSeleccionada, columnaSeleccionada);
+
+        // Verifico si el valor es válido y es una celda de nota
+        if (columnaSeleccionada == 2 && nuevoValor instanceof Double) {
+            // Obtengo la inscripción correspondiente a la fila seleccionada
+            int idAlumno = (int) jtNotas.getValueAt(filaSeleccionada, 0); 
+            int idMateria = (int) jtNotas.getValueAt(filaSeleccionada, 1);
+
+            // Actualiza la nota en el objeto Inscripcion
+            double nota = (double) nuevoValor;
+            actualizarNota(idAlumno, idMateria, nota);
+
+            // Muestra un mensaje de confirmacion
+            JOptionPane.showMessageDialog(null, "Nota actualizada en la base de datos");
+        } else {
+            //en el caso que el valor no es válido o no es una celda de nota
+            JOptionPane.showMessageDialog(null, "El valor de la nota no es válido");
+        }
+    }
+        
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    
+    private void actualizarNota(int idInscripcion,int idMateria, double nuevaNota) {
+    // Lógica para actualizar la nota en la base de datos
+    InscripcionData inscripcionData = new InscripcionData();
+    inscripcionData.actualizarNota(idInscripcion, idMateria, nuevaNota);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTNotas;
+    private javax.swing.JButton jbGuardar;
+    private javax.swing.JComboBox<Alumno> jcbAlumnos;
+    private javax.swing.JTable jtNotas;
     // End of variables declaration//GEN-END:variables
 
     private void armarCabecera (){
@@ -122,9 +197,24 @@ private DefaultTableModel modelo = new DefaultTableModel (){
         modelo.addColumn("INSCRIPCION");
         modelo.addColumn("MATERIA");
         modelo.addColumn("NOTA");
-        jTNotas.setModel(modelo);
+        jtNotas.setModel(modelo);
     }
 
+    //creacion de codigo para controlar jcombobox
+    private void cargarCombo(){
+       //En esta línea, crea una instancia de la clase AlumnoData. Esto se hace para poder acceder a los métodos
+       //y datos de esa clase, en particular, al método listarAlumnos() que se utiliza para obtener la lista de
+       //alumnos desde la base de datos.
+        AlumnoData alumnoData = new AlumnoData();
+        // Llamo al método listarAlumnos() para obtener la lista de alumnos
+        List<Alumno> listaAlumnos = alumnoData.listarAlumnos();
+        // Convierto la lista de alumnos en un array de objetos
+        Alumno[] alumnosArray = listaAlumnos.toArray(new Alumno[0]);
+        // Creo un modelo para el JComboBox utilizando el array de alumnos
+        DefaultComboBoxModel<Alumno> modeloComboBox = new DefaultComboBoxModel<>(alumnosArray);
+        // Asigna el modelo al JComboBox
+        jcbAlumnos.setModel(modeloComboBox);
+    }
 
 
 }
